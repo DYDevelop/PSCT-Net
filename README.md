@@ -37,8 +37,8 @@ PSCT-Net addresses this by replacing geometry-agnostic 2D-to-3D lifting with exp
 
 | Resource | Status | Link |
 |---|---:|---|
-| Project page | Available | [dydevelop.github.io/PSCT_Net](https://dydevelop.github.io/PSCT_Net/) |
-| Code | Available | [github.com/DYDevelop/PSCT_Net](https://github.com/DYDevelop/PSCT_Net) |
+| Project page | Available | [dydevelop.github.io/PSCT-Net](https://dydevelop.github.io/PSCT-Net/) |
+| Code | Available | [github.com/DYDevelop/PSCT-Net](https://github.com/DYDevelop/PSCT-Net) |
 | Paper | Available | [arXiv:2606.19867](https://arxiv.org/abs/2606.19867) |
 | PedSkull-CT | Private | Institutional cohort; not publicly released |
 | Public benchmarks | External | [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI), [CTSpine1K](https://github.com/MIRACLE-Center/CTSpine1K), [CTPelvic1K](https://github.com/MIRACLE-Center/CTPelvic1K) |
@@ -180,8 +180,8 @@ To evaluate anatomical generalization, PSCT-Net is also tested on public CT reco
 ### 1. Create the conda environment
 
 ```bash
-git clone https://github.com/DYDevelop/PSCT_Net.git
-cd PSCT_Net
+git clone https://github.com/DYDevelop/PSCT-Net.git
+cd PSCT-Net
 
 conda env create -f environment.yaml
 conda activate BPJCT
@@ -212,7 +212,7 @@ The released environment was tested with:
 ## Repository Structure
 
 ```text
-PSCT_Net/
+PSCT-Net/
 ├── docs/                         # GitHub Pages project page
 ├── figures/                      # Paper/project figures used by README
 ├── drr_projector/                # CUDA/C++ differentiable projection operators
