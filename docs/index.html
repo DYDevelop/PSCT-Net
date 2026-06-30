@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PSCT-Net | Geometry-Aware Pediatric Skull CT Reconstruction</title>
+  <meta name="description" content="PSCT-Net reconstructs 3D pediatric skull CT from bi-planar X-rays using differentiable back-projection, attention-guided projection, and bidirectional Mamba modules." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="navbar">
+      <a class="brand" href="#top" aria-label="PSCT-Net home">
+        <span class="brand-mark">PSCT</span>
+        <span>PSCT-Net</span>
+      </a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#results">Results</a>
+        <a href="#materials">Materials</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-pad">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">arXiv 2026 · Pediatric Skull CT · Bi-planar X-ray · Geometry-aware Reconstruction</div>
+          <h1>PSCT-Net: Geometry-Aware Pediatric Skull CT Reconstruction via Differentiable Back-Projection and Attention-Guided Refinement</h1>
+          <p class="lead">PSCT-Net reconstructs 3D pediatric skull CT volumes from frontal and lateral X-rays by explicitly injecting acquisition geometry into the network and refining the resulting volumetric prior with attention-guided projection and bidirectional state-space modeling.</p>
+          <p class="authors">Dong Yeong Kim, Jaewon Choi, Youmin Shin, Jungyu Lee, Myeongseop Kim, Jinwook Choi, Joo Whan Kim, Young-Gon Kim</p>
+          <p class="affiliations">Seoul National University · Seoul National University Hospital · Yonsei University · Seoul National University Children’s Hospital</p>
+          <div class="button-row">
+            <a class="btn primary" href="https://arxiv.org/abs/2606.19867">Paper</a>
+            <a class="btn" href="https://github.com/DYDevelop/PSCT_Net">Code</a>
+            <a class="btn muted" href="#dataset">Data terms</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Key reported statistics">
+          <div class="stat-card main">
+            <span class="stat-value">31.49</span>
+            <span class="stat-label">PSNR on PedSkull-CT</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-card"><span class="stat-value">982</span><span class="stat-label">Private pediatric CT scans</span></div>
+            <div class="stat-card"><span class="stat-value">4</span><span class="stat-label">Evaluation datasets</span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-card"><span class="stat-value">27.18</span><span class="stat-label">PSNR on LIDC-IDRI</span></div>
+            <div class="stat-card"><span class="stat-value">33.06</span><span class="stat-label">PSNR on CTPelvic1K</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="container figure-block">
+      <img src="assets/figures/Figure1.png" alt="PSCT-Net teaser showing back-projected volume and generated CT reconstruction" />
+      <p class="caption">Teaser. Frontal and lateral X-rays are back-projected into a coarse volumetric prior, then refined to reconstruct a high-fidelity CT volume.</p>
+    </section>
+
+    <section class="section-pad" id="abstract">
+      <div class="container two-col">
+        <div>
+          <p class="section-kicker">Abstract</p>
+          <h2>Low-dose pediatric cranial reconstruction with explicit geometry.</h2>
+        </div>
+        <div class="body-text">
+          <p>CT is essential for diagnosing pediatric craniofacial abnormalities, but radiation exposure is a major concern in young patients. Reconstructing CT from sparse bi-planar X-rays is attractive but severely ill-posed because two projections do not directly encode volumetric depth.</p>
+          <p>PSCT-Net addresses this by replacing geometry-agnostic feature lifting with differentiable back-projection, attention-guided 2D-to-3D projection, geometry-aware multi-view conditioning, and bidirectional Mamba-based volumetric context modeling.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad subtle" id="motivation">
+      <div class="container">
+        <p class="section-kicker">Motivation</p>
+        <h2>Why explicit acquisition geometry matters</h2>
+        <div class="cards three">
+          <article class="card">
+            <span class="card-number">01</span>
+            <h3>Geometry-agnostic lifting</h3>
+            <p>Naive replication or linear projection of 2D features into 3D can produce spatial misalignment and depth ambiguity.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">02</span>
+            <h3>Diffusion-based reconstruction</h3>
+            <p>Iterative denoising can improve realism but is computationally expensive for time-sensitive clinical workflows.</p>
+          </article>
+          <article class="card emphasis">
+            <span class="card-number">03</span>
+            <h3>PSCT-Net</h3>
+            <p>Back-projection creates a spatially faithful prior, while AGP-3D and BiM-3D refine local correspondence and global cranial structure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="method">
+      <div class="container">
+        <p class="section-kicker">Method</p>
+        <h2>Geometry-aware 2D-to-3D reconstruction</h2>
+        <p class="section-lead">The model initializes a 3D volume via differentiable back-projection, then refines the volume using geometry-aware conditioning, attention-guided projection, and bidirectional state-space modeling.</p>
+        <div class="figure-block in-section">
+          <img src="assets/figures/Figure2.png" alt="Overall PSCT-Net architecture" />
+          <p class="caption">Framework overview. A coarse back-projected prior is refined by an encoder-decoder network conditioned by BP-C and MV3D-C modules.</p>
+        </div>
+        <div class="method-grid">
+          <article class="method-step">
+            <span>01</span>
+            <h3>Differentiable back-projection</h3>
+            <p>Projects frontal and lateral X-ray intensities along physical ray paths to form a geometry-aligned volumetric prior.</p>
+          </article>
+          <article class="method-step">
+            <span>02</span>
+            <h3>BP-C and MV3D-C</h3>
+            <p>Injects geometry into encoder and decoder stages through back-projected 2D features and aligned multi-view 3D features.</p>
+          </article>
+          <article class="method-step">
+            <span>03</span>
+            <h3>AGP-3D</h3>
+            <p>Uses multi-head attention to learn non-linear voxel-wise correspondence between 3D grid queries and 2D feature tokens.</p>
+          </article>
+          <article class="method-step">
+            <span>04</span>
+            <h3>BiM-3D</h3>
+            <p>Models long-range volumetric context with bidirectional selective state-space modeling at linear sequence complexity.</p>
+          </article>
+        </div>
+        <div class="figure-block in-section">
+          <img src="assets/figures/Figure3.png" alt="Visualization of BP-C, MV3D-C, AGP-3D, and BiM-3D modules" />
+          <p class="caption">Core modules. BP-C, MV3D-C, AGP-3D, and BiM-3D provide geometry-aware lifting and efficient volumetric refinement.</p>
+        </div>
+        <div class="equation-box">
+          <span>Training objective</span>
+          <code>L = lambda_adv L_adv + lambda_rec L_rec + lambda_proj L_proj</code>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad subtle" id="dataset">
+      <div class="container">
+        <p class="section-kicker">Dataset</p>
+        <h2>Private pediatric cohort and public anatomical benchmarks</h2>
+        <div class="dataset-grid">
+          <div class="body-text">
+            <h3>PedSkull-CT</h3>
+            <p>PedSkull-CT is a private institutional pediatric skull CT cohort used for internal evaluation. It contains normal and pathological cases from patients aged 1-24 months.</p>
+            <p><strong>Release status:</strong> PedSkull-CT is not redistributed in this repository due to institutional privacy and data-use restrictions.</p>
+          </div>
+          <div class="table-card">
+            <table>
+              <tbody>
+                <tr><th>CT scans</th><td>982</td></tr>
+                <tr><th>Age range</th><td>1-24 months</td></tr>
+                <tr><th>Split</th><td>883 train / 99 test</td></tr>
+                <tr><th>Voxel size</th><td>128^3 after preprocessing</td></tr>
+                <tr><th>X-ray inputs</th><td>DRR + style transfer</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="figure-block in-section">
+          <img src="assets/figures/Figure4.png" alt="Real-world X-rays, DRR projections, style-transferred X-rays, and real-world reconstructions" />
+          <p class="caption">Data pipeline and real-world evaluation. DRRs are translated to realistic X-ray style, and real clinical X-rays are used for qualitative generalization analysis.</p>
+        </div>
+        <div class="cards three compact">
+          <article class="card"><h3>LIDC-IDRI</h3><p>Thoracic CT benchmark with 917 training and 101 testing cases.</p></article>
+          <article class="card"><h3>CTSpine1K</h3><p>Spinal CT benchmark with 904 training and 101 testing cases.</p></article>
+          <article class="card"><h3>CTPelvic1K</h3><p>Pelvic CT benchmark with 424 training and 43 testing cases.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="results">
+      <div class="container">
+        <p class="section-kicker">Results</p>
+        <h2>Reported reconstruction performance</h2>
+        <p class="section-lead">PSCT-Net achieves strong quantitative performance across public benchmarks and the private PedSkull-CT cohort, while preserving single-step inference characteristics.</p>
+
+        <div class="results-grid">
+          <div class="table-card large">
+            <h3>Public benchmarks</h3>
+            <table>
+              <thead><tr><th>Dataset</th><th>Metric</th><th>Second-best</th><th>PSCT-Net</th></tr></thead>
+              <tbody>
+                <tr><td>LIDC-IDRI</td><td>PSNR ↑</td><td>26.35</td><td><strong>27.18</strong></td></tr>
+                <tr><td>LIDC-IDRI</td><td>PSNR3D ↑</td><td>21.64</td><td><strong>22.14</strong></td></tr>
+                <tr><td>LIDC-IDRI</td><td>LPIPS ↓</td><td>0.114</td><td><strong>0.102</strong></td></tr>
+                <tr><td>CTSpine1K</td><td>PSNR ↑</td><td>21.57</td><td><strong>21.86</strong></td></tr>
+                <tr><td>CTSpine1K</td><td>PSNR3D ↑</td><td>21.12</td><td><strong>21.15</strong></td></tr>
+                <tr><td>CTPelvic1K</td><td>PSNR ↑</td><td>31.71</td><td><strong>33.06</strong></td></tr>
+                <tr><td>CTPelvic1K</td><td>SSIM ↑</td><td>0.753</td><td><strong>0.786</strong></td></tr>
+                <tr><td>CTPelvic1K</td><td>LPIPS ↓</td><td>0.113</td><td><strong>0.108</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-card large">
+            <h3>Private PedSkull-CT</h3>
+            <table>
+              <thead><tr><th>Method</th><th>PSNR ↑</th><th>SSIM ↑</th><th>LPIPS ↓</th></tr></thead>
+              <tbody>
+                <tr><td>ReconNet</td><td>25.22</td><td>0.633</td><td>0.537</td></tr>
+                <tr><td>X-CTRSNet</td><td>24.27</td><td>0.788</td><td>0.498</td></tr>
+                <tr><td>X2CT-GAN</td><td>30.21</td><td>0.860</td><td>0.113</td></tr>
+                <tr><td>TRCT-GAN</td><td>29.92</td><td>0.847</td><td>0.123</td></tr>
+                <tr><td>BX2S-Net</td><td>29.73</td><td>0.777</td><td>0.298</td></tr>
+                <tr><td><strong>PSCT-Net</strong></td><td><strong>31.49</strong></td><td><strong>0.882</strong></td><td><strong>0.100</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="figure-block in-section">
+          <img src="assets/figures/Figure5.png" alt="Qualitative comparison of PSCT-Net, TRCT-GAN, and X2CT-GAN reconstructions" />
+          <p class="caption">Qualitative comparison. Red dashed regions highlight fine structures and hallucination-prone areas where PSCT-Net better preserves anatomy.</p>
+        </div>
+
+        <div class="table-card wide">
+          <h3>Ablation study on LIDC-IDRI</h3>
+          <table>
+            <thead><tr><th>BP-I</th><th>BP-C</th><th>AGP</th><th>BiM</th><th>PSNR ↑</th><th>SSIM ↑</th></tr></thead>
+            <tbody>
+              <tr><td></td><td></td><td></td><td></td><td>26.03</td><td>0.645</td></tr>
+              <tr><td>✓</td><td></td><td></td><td></td><td>26.30</td><td>0.647</td></tr>
+              <tr><td>✓</td><td>✓</td><td></td><td></td><td>26.40</td><td>0.648</td></tr>
+              <tr><td></td><td></td><td>✓</td><td></td><td>26.92</td><td>0.649</td></tr>
+              <tr><td></td><td></td><td></td><td>✓</td><td>27.07</td><td>0.665</td></tr>
+              <tr><td>✓</td><td>✓</td><td>✓</td><td></td><td>26.85</td><td>0.651</td></tr>
+              <tr><td>✓</td><td>✓</td><td></td><td>✓</td><td>27.16</td><td>0.669</td></tr>
+              <tr><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td><strong>27.18</strong></td><td><strong>0.671</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad subtle" id="materials">
+      <div class="container">
+        <p class="section-kicker">Materials</p>
+        <h2>Code, paper, and data terms</h2>
+        <div class="cards three">
+          <article class="card resource">
+            <h3>Paper</h3>
+            <p>Preprint available on arXiv.</p>
+            <a href="https://arxiv.org/abs/2606.19867">arXiv:2606.19867</a>
+          </article>
+          <article class="card resource">
+            <h3>Code</h3>
+            <p>Training and inference code are provided in the GitHub repository.</p>
+            <a href="https://github.com/DYDevelop/PSCT_Net">github.com/DYDevelop/PSCT_Net</a>
+          </article>
+          <article class="card resource">
+            <h3>PedSkull-CT</h3>
+            <p>Private institutional cohort used for internal validation; not publicly redistributed.</p>
+            <a href="#dataset">See data terms</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="citation">
+      <div class="container citation-grid">
+        <div>
+          <p class="section-kicker">Citation</p>
+          <h2>Cite PSCT-Net</h2>
+          <p class="section-lead">Proceedings details can be updated after the final venue version is available.</p>
+        </div>
+        <div class="code-card">
+          <button class="copy-btn" type="button" data-copy-target="bibtex">Copy BibTeX</button>
+<pre id="bibtex"><code>@misc{kim2026psctnet,
+  title         = {PSCT-Net: Geometry-Aware Pediatric Skull CT Reconstruction via Differentiable Back-Projection and Attention-Guided Refinement},
+  author        = {Kim, Dong Yeong and Choi, Jaewon and Shin, Youmin and Lee, Jungyu and Kim, Myeongseop and Choi, Jinwook and Kim, Joo Whan and Kim, Young-Gon},
+  year          = {2026},
+  eprint        = {2606.19867},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>PSCT-Net · Geometry-aware pediatric skull CT reconstruction.</p>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
