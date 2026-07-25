@@ -22,7 +22,7 @@ preprocessing dependencies:
 
 ```bash
 conda env create -f environment.yaml
-conda activate BPJCT
+conda activate PSCT
 python -m pip install -r dataset_gen/requirements.txt
 ```
 
