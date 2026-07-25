@@ -1,0 +1,3 @@
+# Additional packages not currently declared by the repository environment.
+pydicom>=2.4,<4
+scikit-learn>=1.4,<2
