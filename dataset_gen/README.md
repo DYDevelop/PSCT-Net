@@ -64,10 +64,3 @@ The work directory receives:
 - `final_h5/`: combined CT and two-view HDF5 files
 
 Do not place the work directory inside the repository.
-
-## License provenance
-
-`volume_resizeing.py` retains the original Tencent/Kai Ma GPLv3 notice. This
-repository must include a GPLv3-compatible license and preserve applicable
-copyright and attribution notices before public distribution. Confirm the
-repository-wide licensing decision with the code owners or institution.
