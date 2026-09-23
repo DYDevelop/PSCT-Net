@@ -1,6 +1,7 @@
 # PSCT-Net
 ### Geometry-Aware Pediatric Skull CT Reconstruction via Differentiable Back-Projection and Attention-Guided Refinement
 
+[![MICCAI 2026](https://img.shields.io/badge/MICCAI-2026-2F80ED)](#citation)
 [![arXiv](https://img.shields.io/badge/arXiv-2606.19867-b31b1b)](https://arxiv.org/abs/2606.19867)
 [![Project Page](https://img.shields.io/badge/Project-Page-111827)](https://dydevelop.github.io/PSCT-Net/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4.1-EE4C2C)](#installation)
