@@ -10,7 +10,8 @@
 Official implementation of **PSCT-Net**, a geometry-aware framework for reconstructing 3D pediatric skull CT volumes from **bi-planar X-rays**.
 
 PSCT-Net uses differentiable back-projection to inject acquisition geometry into the reconstruction pipeline, then refines the resulting volumetric prior with attention-guided feature lifting and efficient bidirectional state-space modeling.
- :heart_eyes::heart_eyes: **Accepted on *PedAItrics MICCAIw 2026*!!**
+
+:heart_eyes::heart_eyes: **Accepted on *PedAItrics MICCAIw 2026*!!**
 
 > **Data note.** PedSkull-CT is a private institutional pediatric skull CT cohort used for internal evaluation. It is not redistributed in this repository.
 
