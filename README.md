@@ -306,13 +306,15 @@ python visual.py \
 ## Citation
 
 ```bibtex
-@misc{kim2026psctnet,
-  title         = {PSCT-Net: Geometry-Aware Pediatric Skull CT Reconstruction via Differentiable Back-Projection and Attention-Guided Refinement},
-  author        = {Kim, Dong Yeong and Choi, Jaewon and Shin, Youmin and Lee, Jungyu and Kim, Myeongseop and Choi, Jinwook and Kim, Joo Whan and Kim, Young-Gon},
-  year          = {2026},
-  eprint        = {2606.19867},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV}
+@InProceedings{KimDon_PSCTNet_MICCAISAT2026,
+        author = { Kim, Dong Yeong AND Choi, Jaewon AND Shin, Youmin AND Lee, JunGyu AND Kim, Myeongseop AND Choi, Jinwook AND Kim, Joo Whan AND Kim, Young-Gon},
+        title = { { PSCT-Net: Geometry-Aware Pediatric Skull CT Reconstruction via Differentiable Back-Projection and Attention-Guided Refinement } },
+        booktitle = {Medical Image Computing and Computer Assisted Intervention -- MICCAI 2026 Workshops and Challenges},
+        year = {2026},
+        publisher = {Springer Nature Switzerland},
+        volume = {LNCS 17257},
+        month = {pending},
+        page = {pending}
 }
 ```
 
